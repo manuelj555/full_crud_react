@@ -1,9 +1,8 @@
+import { Link, Outlet } from "react-router";
 import { useGetProfiles } from "../hooks/profiles";
-import { Link, Outlet, useNavigate } from "react-router";
 
 export function ListPage() {
   const { isLoading, profiles } = useGetProfiles();
-  const navigate = useNavigate();
 
   if (isLoading) {
     return (

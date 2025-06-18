@@ -3,14 +3,15 @@ import { Link, useParams } from "react-router";
 import { ProfileForm } from "../components/ProfileForm";
 import { useGetProfile } from "../hooks/profiles";
 import { ProfileFormLoading } from "../components/ProfileFormLoading";
+import { useRef } from "react";
 
 export function EditUserPage() {
   const { id } = useParams();
   const { isLoading, profile } = useGetProfile(id);
 
   return (
-    <Dialog className="border-yellow-400">
-      <div className="p-8 rounded-xl w-full">
+    <Dialog className="border-yellow-400 w-1/3" redirectUrl={"/"}>
+      <div className="p-8 rounded-xl">
         <div className="flex items-center mb-6">
           <Link
             to="/"

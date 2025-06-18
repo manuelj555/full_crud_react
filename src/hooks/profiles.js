@@ -7,8 +7,6 @@ export function useGetProfiles() {
     queryFn: () => axiosCall("get", apiUrl("profiles")),
   })
 
-  console.log("useGetProfiles", { isLoading, data });
-
   return {
     isLoading,
     profiles: data,
