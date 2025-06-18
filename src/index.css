@@ -1,1 +1,10 @@
 @import "tailwindcss";
+
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old,
+::view-transition-new {
+  transition: all 2s;
+}
