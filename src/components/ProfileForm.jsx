@@ -1,13 +1,27 @@
-export function ProfileForm({
-  onSubmit,
-  defaultValues = {},
-  isPending = false,
-  submitLabel = "Guardar"
-}) {
+import { useActionState } from "react";
+import { useSaveProfile } from "../hooks/profiles";
+import { useNavigate } from "react-router";
+
+export function ProfileForm({ defaultValues = {}, submitLabel = "Guardar" }) {
+  const { save } = useSaveProfile();
+  const navigate = useNavigate();
+  const [formData, formAction, isPending] = useActionState(handleSubmit, null);
+
+  async function handleSubmit(prev, formData) {
+    await save({
+      id: defaultValues?.id,
+      username: formData.get("username"),
+      photo: formData.get("photo") || null,
+    });
+    navigate("/");
+  }
+
   return (
-    <form className="space-y-5" onSubmit={onSubmit}>
+    <form className="space-y-5" action={formAction}>
       <div>
-        <label className="block text-gray-700 font-medium mb-1">Usuario *</label>
+        <label className="block text-gray-700 font-medium mb-1">
+          Usuario *
+        </label>
         <input
           name="username"
           type="text"
@@ -18,7 +32,9 @@ export function ProfileForm({
         />
       </div>
       <div>
-        <label className="block text-gray-700 font-medium mb-1">Foto (URL)</label>
+        <label className="block text-gray-700 font-medium mb-1">
+          Foto (URL)
+        </label>
         <input
           name="photo"
           type="url"

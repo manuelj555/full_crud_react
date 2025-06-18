@@ -1,8 +1,9 @@
 import { useGetProfiles } from "../hooks/profiles";
-import { Link, Outlet } from "react-router";
+import { Link, Outlet, useNavigate } from "react-router";
 
 export function ListPage() {
   const { isLoading, profiles } = useGetProfiles();
+  const navigate = useNavigate();
 
   if (isLoading) {
     return (
@@ -21,8 +22,7 @@ export function ListPage() {
           </h1>
           <Link
             to="/crear"
-            className="bg-blue-600 text-white px-4 py-2 rounded font-semibold shadow hover:bg-blue-700 transition"
-            viewTransition
+            className="bg-blue-600 text-white px-4 py-2 rounded font-semibold shadow hover:bg-blue-700"
           >
             Crear usuario
           </Link>
@@ -41,13 +41,18 @@ export function ListPage() {
                 />
               ) : (
                 <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center text-3xl text-blue-700 font-bold mb-4 uppercase">
-                  {profile.username?.charAt(0) || '?'}
+                  {profile.username?.charAt(0) || "?"}
                 </div>
               )}
               <div className="text-lg font-semibold text-gray-800 mb-1">
                 {profile.username}
               </div>
-              {/* Puedes agregar más datos aquí, como email, etc. */}
+              <Link
+                to={`/editar/${profile.id}`}
+                className="mt-3 bg-yellow-500 text-white px-3 py-1 rounded font-medium shadow hover:bg-yellow-600"
+              >
+                Editar
+              </Link>
             </div>
           ))}
         </div>
