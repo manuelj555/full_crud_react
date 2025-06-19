@@ -1,13 +1,29 @@
 import {
+  createContext,
+  startTransition,
+  use,
   useLayoutEffect,
   useRef,
   unstable_ViewTransition as ViewTransition,
 } from "react";
-import { useNavigate } from "react-router";
+import { useEffectEvent } from "../hooks/useEffectEvent";
 
-export function Dialog({ children, className = "", redirectUrl }) {
+const Context = createContext(null);
+
+export function Dialog({ children, className = "", onClose }) {
   const modalRef = useRef(null);
-  const navigate = useNavigate();
+  const onCloseCallback = useEffectEvent(() => {
+    const dialog = modalRef.current;
+    if (!dialog) return false;
+
+    if (onClose) {
+      startTransition(() => {
+        onClose(dialog)
+      })
+    } else {
+      dialog.close()
+    }
+  });
 
   useLayoutEffect(() => {
     const dialog = modalRef.current;
@@ -19,28 +35,40 @@ export function Dialog({ children, className = "", redirectUrl }) {
 
     async function handleKeyDown(e) {
       if (e.key === "Escape") {
-        if (redirectUrl) {
-          navigate(redirectUrl);
-        } else {
-          dialog.close();
-        }
+        onCloseCallback(dialog);
       }
     }
     window.addEventListener("keydown", handleKeyDown);
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [redirectUrl, navigate]);
+  }, [onCloseCallback]);
 
   return (
     <ViewTransition enter="modal-enter" exit="modal-exit">
       <dialog
+        // eslint-disable-next-line react/no-unknown-property
         closedby="none"
         ref={modalRef}
-        className={`m-auto border-2 rounded-xl shadow-lg min-w-1/4 bg-white backdrop:bg-black/30 backdrop:backdrop-blur-sm ${className}`}
+        className={`
+          m-auto border-2 rounded-xl shadow-lg 
+          min-w-1/4 bg-white backdrop:bg-black/30 
+          backdrop:backdrop-blur-sm 
+          ${className}
+        `}
       >
-        {children}
+        <Context value={{ close: onCloseCallback }}>
+          {children}
+        </Context>
       </dialog>
     </ViewTransition>
   );
+}
+
+export function useCloseDialog() {
+  const context = use(Context);
+  if (!context) {
+    throw new Error("useDialog must be used within a Dialog");
+  }
+  return context.close;
 }

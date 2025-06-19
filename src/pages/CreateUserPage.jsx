@@ -1,10 +1,10 @@
 import { Link } from "react-router";
-import { Dialog } from "../components/Dialog";
+import { RouteDialog } from "../components/RouteDialog";
 import { ProfileForm } from "../components/ProfileForm";
 
 export function CreateUserPage() {
   return (
-    <Dialog className="border-blue-400" redirectUrl="/">
+    <RouteDialog className="border-blue-400" redirectUrl="/">
       <div className="p-8 rounded-xl w-full">
         <div className="flex items-center mb-6">
           <Link
@@ -19,6 +19,6 @@ export function CreateUserPage() {
         </div>
         <ProfileForm />
       </div>
-    </Dialog>
+    </RouteDialog>
   );
 }

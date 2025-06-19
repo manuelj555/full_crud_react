@@ -1,8 +1,12 @@
 import { Link, Outlet } from "react-router";
 import { useGetProfiles } from "../hooks/profiles";
+import { ProfileCard } from "../components/ProfileCard";
+import { useDeferredValue } from "react";
+import { unstable_ViewTransition as ViewTransition } from "react";
 
 export function ListPage() {
-  const { isLoading, profiles } = useGetProfiles();
+  const { isLoading, profiles: originalProfiles } = useGetProfiles();
+  const profiles = useDeferredValue(originalProfiles);
 
   if (isLoading) {
     return (
@@ -27,32 +31,10 @@ export function ListPage() {
           </Link>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {profiles.map((profile) => (
-            <div
-              key={profile.id}
-              className="bg-white rounded-xl shadow-md p-6 flex flex-col items-center hover:shadow-lg transition-shadow duration-200"
-            >
-              {profile.photo ? (
-                <img
-                  src={profile.photo}
-                  alt={profile.username}
-                  className="w-16 h-16 rounded-full object-cover mb-4 border-2 border-blue-200 shadow"
-                />
-              ) : (
-                <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center text-3xl text-blue-700 font-bold mb-4 uppercase">
-                  {profile.username?.charAt(0) || "?"}
-                </div>
-              )}
-              <div className="text-lg font-semibold text-gray-800 mb-1">
-                {profile.username}
-              </div>
-              <Link
-                to={`/editar/${profile.id}`}
-                className="mt-3 bg-yellow-500 text-white px-3 py-1 rounded font-medium shadow hover:bg-yellow-600"
-              >
-                Editar
-              </Link>
-            </div>
+          {profiles?.map((profile) => (
+            <ViewTransition key={profile.id}>
+              <ProfileCard key={profile.id} profile={profile} />
+            </ViewTransition>        
           ))}
         </div>
       </div>

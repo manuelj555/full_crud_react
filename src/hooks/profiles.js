@@ -45,3 +45,18 @@ export function useSaveProfile() {
 
   return { isPending, save: mutateAsync };
 }
+
+export function useDeleteProfile() {
+  const queryClient = useQueryClient();
+  const { isPending, mutateAsync } = useMutation({
+    mutationFn: (id) => axiosCall("delete", apiUrl(`profiles/${id}`)),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["profiles"] });
+      // setTimeout(() => {
+      //   queryClient.invalidateQueries({ queryKey: ["profiles"] });
+      // }, 1000); // Delay to allow UI transition
+    },
+  });
+  
+  return { isPending, remove: mutateAsync };
+}
