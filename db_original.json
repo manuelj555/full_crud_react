@@ -11,6 +11,31 @@
       "photo": "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=facearea&w=256&h=256&facepad=2"
     },
     {
+      "id": "6",
+      "username": "carlos.",
+      "photo": "https://randomuser.me/api/portraits/men/65.jpg"
+    },
+    {
+      "id": "7",
+      "username": "valentina",
+      "photo": "https://randomuser.me/api/portraits/women/68.jpg"
+    },
+    {
+      "id": "11",
+      "username": "agustin",
+      "photo": "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=facearea&w=256&h=256&facepad=2"
+    },
+    {
+      "id": "12",
+      "username": "florencia",
+      "photo": "https://randomuser.me/api/portraits/women/50.jpg"
+    },
+    {
+      "id": "b7cf",
+      "username": "Jose",
+      "photo": "https://images.pexels.com/photos/4307869/pexels-photo-4307869.jpeg"
+    },
+    {
       "id": "7abd",
       "username": "wacycic",
       "photo": "https://www.hunu.co.uk"

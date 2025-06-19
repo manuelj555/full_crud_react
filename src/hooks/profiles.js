@@ -40,6 +40,7 @@ export function useSaveProfile() {
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["profiles"] });
+      queryClient.invalidateQueries({ queryKey: ["profile"] });
     },
   });
 
@@ -50,13 +51,16 @@ export function useDeleteProfile() {
   const queryClient = useQueryClient();
   const { isPending, mutateAsync } = useMutation({
     mutationFn: (id) => axiosCall("delete", apiUrl(`profiles/${id}`)),
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ["profiles"] });
-      // setTimeout(() => {
-      //   queryClient.invalidateQueries({ queryKey: ["profiles"] });
-      // }, 1000); // Delay to allow UI transition
+    onSuccess: async (result, id) => {
+      queryClient.invalidateQueries({ queryKey: ["profiles"] });
+      queryClient.setQueryData(["profiles"], old => old.map(profile => {
+        if (profile.id === id) {
+          return { ...profile, deleting: true };
+        }
+        return profile;
+      }))
     },
   });
-  
+
   return { isPending, remove: mutateAsync };
 }

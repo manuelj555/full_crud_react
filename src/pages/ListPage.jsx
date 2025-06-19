@@ -7,6 +7,7 @@ import { unstable_ViewTransition as ViewTransition } from "react";
 export function ListPage() {
   const { isLoading, profiles: originalProfiles } = useGetProfiles();
   const profiles = useDeferredValue(originalProfiles);
+  console.log(profiles?.length, originalProfiles?.length);
 
   if (isLoading) {
     return (
@@ -32,13 +33,13 @@ export function ListPage() {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {profiles?.map((profile) => (
-            <ViewTransition key={profile.id}>
+            // <ViewTransition key={profile.id}>
               <ProfileCard key={profile.id} profile={profile} />
-            </ViewTransition>        
+            // </ViewTransition>
           ))}
         </div>
+        <Outlet />
       </div>
-      <Outlet />
     </>
   );
 }

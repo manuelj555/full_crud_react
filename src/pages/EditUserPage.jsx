@@ -1,3 +1,4 @@
+import { useDeferredValue, unstable_ViewTransition as ViewTransition } from "react";
 import { RouteDialog } from "../components/RouteDialog";
 import { Link, useParams } from "react-router";
 import { ProfileForm } from "../components/ProfileForm";
@@ -6,7 +7,8 @@ import { ProfileFormLoading } from "../components/ProfileFormLoading";
 
 export function EditUserPage() {
   const { id } = useParams();
-  const { isLoading, profile } = useGetProfile(id);
+  const { isLoading, profile } = useGetProfile(id)
+  const deferredProfile = useDeferredValue(profile)
 
   return (
     <RouteDialog className="border-yellow-400 w-1/3" redirectUrl={"/"}>
@@ -25,7 +27,9 @@ export function EditUserPage() {
         {isLoading ? (
           <ProfileFormLoading />
         ) : (
-          <ProfileForm defaultValues={profile} submitLabel="Actualizar" />
+          <ViewTransition>
+            <ProfileForm defaultValues={deferredProfile} submitLabel="Actualizar" />
+          </ViewTransition>
         )}
       </div>
     </RouteDialog>

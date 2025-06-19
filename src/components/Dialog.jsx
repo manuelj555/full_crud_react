@@ -18,10 +18,10 @@ export function Dialog({ children, className = "", onClose }) {
 
     if (onClose) {
       startTransition(() => {
-        onClose(dialog)
-      })
+        onClose(dialog);
+      });
     } else {
-      dialog.close()
+      dialog.close();
     }
   });
 
@@ -57,9 +57,7 @@ export function Dialog({ children, className = "", onClose }) {
           ${className}
         `}
       >
-        <Context value={{ close: onCloseCallback }}>
-          {children}
-        </Context>
+        <Context value={{ close: onCloseCallback }}>{children}</Context>
       </dialog>
     </ViewTransition>
   );
