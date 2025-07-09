@@ -10,4 +10,9 @@ export default defineConfig({
       ignored: ['**/db.json']
     },
   },
+  test: {
+    environment: 'jsdom',
+    setupFiles: './src/setupTests.js', // este archivo lo crearás en el siguiente paso
+    globals: true,
+  },
 })
