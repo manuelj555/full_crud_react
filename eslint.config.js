@@ -3,6 +3,7 @@ import globals from "globals";
 import pluginReact from "eslint-plugin-react";
 import { defineConfig } from "eslint/config";
 import pluginQuery from '@tanstack/eslint-plugin-query'
+import eslintConfigPrettier from "eslint-config-prettier/flat"
 
 
 export default defineConfig([
@@ -10,6 +11,7 @@ export default defineConfig([
   { files: ["**/*.{js,mjs,cjs,jsx}"], languageOptions: { globals: globals.browser } },
   pluginReact.configs.flat.recommended,
   ...pluginQuery.configs['flat/recommended'],
+  eslintConfigPrettier,
   {
     rules: {
       "react/react-in-jsx-scope": "off",
